@@ -1,0 +1,49 @@
+version: 2.1
+
+executors:
+  nodejs:
+    docker:
+      - image: circleci/node:lts-stretch
+    resource_class: small
+    working_directory: ~/app
+
+jobs:
+  test:
+    executor: nodejs
+    steps:
+      - checkout
+      - run: npm ci
+      - run: npm test
+  deploy:
+    executor: nodejs
+    steps:
+      - checkout
+      - run: npm ci
+
+workflows:
+  dev-stage:
+    jobs:
+      - test
+      - deploy:
+          context: aws
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+  prod:
+    jobs:
+      - test:
+          filters: &filters-prod
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
+      - deploy:
+          context: aws
+          requires:
+            - test
+          filters:
+            <<: *filters-prod

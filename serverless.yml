@@ -1,0 +1,58 @@
+service: minesweeper-api
+
+frameworkVersion: '2'
+useDotenv: true
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+provider:
+  name: aws
+  profile: zhengminwang
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  region: us-west-2
+  stackName: MinesweeperApi
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: serverless-deployment-repository
+    maxPreviousDeploymentArtifacts: 10
+  deploymentPrefix: minesweeper
+  timeout: 29
+  httpApi:
+    cors: true
+  environment:
+    STAGE: ${self:provider.stage}
+
+custom:
+  serverless-offline:
+    port: ${opt:port, '4000'}
+  customDomain:
+    http:
+      domainName: api.mine-sweeper.org
+      stage: ${self:provider.stage}
+      createRoute53Record: true
+      endpointType: 'regional'
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules: false
+    excludeFiles: src/**/*.spec.ts
+
+package:
+  individually: false
+  exclude:
+    - ./node_modules/**
+    - node_modules/**
+  include:
+    - src/**
+    - package.json
+  excludeDevDependencies: true
+
+functions:
+  applications:
+    handler: src/controllers/handler.contactme
+    events:
+      - httpApi:
+          path: /contactme/email
+          method: post
