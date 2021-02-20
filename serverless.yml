@@ -9,7 +9,7 @@ plugins:
 
 provider:
   name: aws
-  profile: zhengminwang
+  profile: ${opt:profile}
   runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
   region: us-west-2
