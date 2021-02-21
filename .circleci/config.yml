@@ -18,16 +18,18 @@ jobs:
     executor: nodejs
     steps:
       - checkout
-      - run: npm ci
       - run: |
+          npm ci
+
           if [ ! -z "${CIRCLE_TAG}" ]; then
-              STAGE="prod"
-            elif [ "${CIRCLE_BRANCH}" = "master" ]; then
-              STAGE="stage"
-            else
-              STAGE="dev"
-            fi
-      - run: npm run deploy -- --stage=$STAGE
+            STAGE="prod"
+          elif [ "${CIRCLE_BRANCH}" = "master" ]; then
+            STAGE="stage"
+          else
+            STAGE="dev"
+          fi
+
+          npm run deploy -- --stage=$STAGE
 
 workflows:
   dev-stage:
