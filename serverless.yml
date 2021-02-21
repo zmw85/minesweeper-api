@@ -9,7 +9,6 @@ plugins:
 
 provider:
   name: aws
-  profile: ${opt:profile}
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: us-west-2
@@ -61,4 +60,4 @@ functions:
     events:
       - httpApi:
           path: /{proxy+}
-          method: any
+          method: '*'
