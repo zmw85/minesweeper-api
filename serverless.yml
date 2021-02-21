@@ -10,10 +10,11 @@ plugins:
 provider:
   name: aws
   profile: ${opt:profile}
-  runtime: nodejs14.x
+  runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: us-west-2
-  stackName: MinesweeperApi
+  stackName: MinesweeperApi-${self:custom.stageCapitalized}
+  apiName: MinesweeperApi-${self:custom.stageCapitalized}
   lambdaHashingVersion: 20201221
   deploymentBucket:
     name: serverless-deployment-repository
@@ -27,7 +28,7 @@ provider:
 
 custom:
   serverless-offline:
-    port: ${opt:port, '4000'}
+    httpPort: ${opt:port, '4000'}
   customDomain:
     http:
       domainName: api.mine-sweeper.org
@@ -38,6 +39,11 @@ custom:
     webpackConfig: webpack.config.js
     includeModules: false
     excludeFiles: src/**/*.spec.ts
+  stages:
+    dev: Dev
+    stage: Stage
+    prod: Prod
+  stageCapitalized: ${self:custom.stages.${self:provider.stage}}
 
 package:
   individually: false
@@ -51,8 +57,8 @@ package:
 
 functions:
   applications:
-    handler: src/controllers/handler.contactme
+    handler: src/handler.expressHandler
     events:
       - httpApi:
-          path: /contactme/email
-          method: post
+          path: /{proxy+}
+          method: any
