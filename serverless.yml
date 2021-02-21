@@ -6,6 +6,7 @@ useDotenv: true
 plugins:
   - serverless-webpack
   - serverless-offline
+  - serverless-layers
 
 provider:
   name: aws
@@ -38,6 +39,8 @@ custom:
     webpackConfig: webpack.config.js
     includeModules: false
     excludeFiles: src/**/*.spec.ts
+  serverless-layers:
+    dependenciesPath: ./package.json
   stages:
     dev: Dev
     stage: Stage
