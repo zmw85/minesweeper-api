@@ -79,6 +79,7 @@ resources:
             ViewerProtocolPolicy: 'redirect-to-https'
             DefaultTTL: 30
             AllowedMethods:
+              - HEAD
               - GET
               - POST
               - OPTIONS
