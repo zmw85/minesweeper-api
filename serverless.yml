@@ -87,7 +87,6 @@ resources:
                   - "."
                   - - Ref: HttpApi
                     - execute-api.us-west-2.amazonaws.com
-              OriginPath: /
               CustomOriginConfig:
                 HTTPPort: 80
                 HTTPSPort: 443
