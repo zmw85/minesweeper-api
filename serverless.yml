@@ -78,6 +78,14 @@ resources:
             TargetOriginId: HttpApi
             ViewerProtocolPolicy: 'redirect-to-https'
             DefaultTTL: 30
+            AllowedMethods:
+              - GET
+              - POST
+              - OPTIONS
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
             ForwardedValues:
               QueryString: false
           Origins:
