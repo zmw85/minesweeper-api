@@ -29,7 +29,7 @@ jobs:
             STAGE="dev"
           fi
 
-          npm run deploy -- --stage=$STAGE
+          npm run deploy -- --stage $STAGE
 
 workflows:
   dev-stage:

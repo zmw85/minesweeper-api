@@ -21,6 +21,7 @@ provider:
     maxPreviousDeploymentArtifacts: 10
   deploymentPrefix: minesweeper
   timeout: 29
+  memorySize: 256
   httpApi:
     cors: true
   environment:
@@ -64,3 +65,30 @@ functions:
       - httpApi:
           path: /{proxy+}
           method: '*'
+
+resources:
+  Resources:
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Comment: Minesweeper - Api - ${self:custom.stageCapitalized}
+          Enabled: true
+          DefaultCacheBehavior:
+            TargetOriginId: HttpApi
+            ViewerProtocolPolicy: 'redirect-to-https'
+            DefaultTTL: 30
+            ForwardedValues:
+              QueryString: false
+          Origins:
+            - Id: HttpApi
+              DomainName:
+                Fn::Join:
+                  - "."
+                  - - Ref: HttpApi
+                    - execute-api.us-west-2.amazonaws.com
+              OriginPath: /
+              CustomOriginConfig:
+                HTTPPort: 80
+                HTTPSPort: 443
+                OriginProtocolPolicy: https-only
