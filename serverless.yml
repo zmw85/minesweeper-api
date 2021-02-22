@@ -107,6 +107,7 @@ resources:
             - ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org
           ViewerCertificate:
             AcmCertificateArn: "arn:aws:acm:us-east-1:204142071523:certificate/f21d20d6-8307-4883-96c5-eed8ac3f57ac"
+            SslSupportMethod: sni-only
     Route53Record:
       Type: AWS::Route53::RecordSet
       Properties:
