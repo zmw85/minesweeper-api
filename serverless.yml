@@ -47,6 +47,9 @@ custom:
     stage: Stage
     prod: Prod
   stageCapitalized: ${self:custom.stages.${self:provider.stage}}
+  domainPrefix:
+    dev: dev-
+    stage: stage-
 
 package:
   individually: false
@@ -100,3 +103,16 @@ resources:
                 HTTPPort: 80
                 HTTPSPort: 443
                 OriginProtocolPolicy: https-only
+          Aliases:
+            - ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org
+          ViewerCertificate:
+            AcmCertificateArn: "arn:aws:acm:us-east-1:204142071523:certificate/f21d20d6-8307-4883-96c5-eed8ac3f57ac"
+    Route53Record:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneName: mine-sweeper.org.
+        Name: ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org.
+        Type: A
+        AliasTarget:
+          HostedZoneId: Z2FDTNDATAQYW2
+          DNSName: !GetAtt CloudFrontDistribution.DomainName
