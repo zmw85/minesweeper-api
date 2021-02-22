@@ -108,6 +108,9 @@ resources:
           ViewerCertificate:
             AcmCertificateArn: "arn:aws:acm:us-east-1:204142071523:certificate/f21d20d6-8307-4883-96c5-eed8ac3f57ac"
             SslSupportMethod: sni-only
+          Logging:
+            Bucket: logs-cloudfront-sadkjhwe9.s3.amazonaws.com
+            Prefix: Minesweeper/Api/${self:custom.stageCapitalized}
     Route53Record:
       Type: AWS::Route53::RecordSet
       Properties:
