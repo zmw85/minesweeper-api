@@ -4,7 +4,7 @@ import serverless from "serverless-http";
 import { APIGatewayEvent, Context } from "aws-lambda";
 
 import { expressLogger, consoleLogger as logger } from "./utils/logger";
-import contactMeRouter from "./routers/contactMe";
+import { contactMeRouter, statusRouter } from "./routers";
 
 const app = express();
 
@@ -13,6 +13,7 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 
 app.use("/contactme", contactMeRouter);
+app.use("/status", statusRouter);
 
 const handler = serverless(app);
 
