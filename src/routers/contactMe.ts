@@ -4,6 +4,7 @@ import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 
 import { expressValidater } from "../utils/express-validator";
 import { consoleLogger as logger } from "../utils/logger";
+import { AppConfig } from "../config";
 
 const router = express.Router();
 
@@ -24,12 +25,13 @@ router.post(
     }
 
     const { email, firstName, lastName, message } = req.body;
+    const { environment } = AppConfig;
 
     const command = new SendEmailCommand({
       ConfigurationSetName: CONFIGURATION_SET_NAME,
-      FromEmailAddress: "jeffwang03@gmail.com",
+      FromEmailAddress: "contactme@mine-sweeper.org",
       Destination: {
-        ToAddresses: ["contactme@mine-sweeper.org"],
+        ToAddresses: ["jeffwang03@gmail.com"],
       },
       Content: {
         Simple: {
@@ -39,9 +41,10 @@ router.post(
           Body: {
             Html: {
               Data: [
-                `<h3>From:</h3> ${firstName} ${lastName}}`,
-                `<h3>Email:</h3> ${email}`,
-                `<h3>Message:</h3>`,
+                `<b>Environment:</b> ${environment}`,
+                `<b>From:</b> ${firstName} ${lastName}}`,
+                `<b>Email:</b> ${email}`,
+                `<b>Message:</b>`,
                 message,
               ].join("<br />"),
             },
