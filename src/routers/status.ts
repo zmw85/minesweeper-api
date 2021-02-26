@@ -13,6 +13,7 @@ router.get("/ping", (req: Request, res: Response) => {
       service: AppConfig.serviceName,
       host: req.headers.host,
       environment,
+      timestamp: new Date().toISOString(),
     },
   });
 });

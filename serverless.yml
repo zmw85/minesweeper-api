@@ -26,6 +26,13 @@ provider:
     cors: true
   environment:
     STAGE: ${self:provider.stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+       - ses:SendEmail
+       - ses:SendRawEmail
+       - ses:SendTemplatedEmail
+      Resource: "arn:aws:ses:us-west-2:204142071523:identity/mine-sweeper.org"
 
 custom:
   serverless-offline:
