@@ -42,7 +42,7 @@ router.post(
             Html: {
               Data: [
                 `<b>Environment:</b> ${environment}`,
-                `<b>From:</b> ${firstName} ${lastName}}`,
+                `<b>From:</b> ${firstName} ${lastName}`,
                 `<b>Email:</b> ${email}`,
                 `<b>Message:</b>`,
                 message,
