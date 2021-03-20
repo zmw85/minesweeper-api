@@ -32,7 +32,7 @@ provider:
        - ses:SendEmail
        - ses:SendRawEmail
        - ses:SendTemplatedEmail
-      Resource: "arn:aws:ses:us-west-2:204142071523:identity/mine-sweeper.org"
+      Resource: "*"
 
 custom:
   serverless-offline:
