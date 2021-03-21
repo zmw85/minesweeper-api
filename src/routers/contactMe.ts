@@ -14,10 +14,10 @@ const CONFIGURATION_SET_NAME = "Default";
 router.post(
   "/",
   expressValidater([
-    body("email").trim().isEmail(),
+    body("email").trim().isEmail().isLength({ min: 5, max: 100 }),
     body("firstName").trim().isLength({ min: 1, max: 50 }),
-    body("lastName").trim().notEmpty().isLength({ min: 1, max: 50 }),
-    body("message").trim().notEmpty().isLength({ min: 1, max: 500 }),
+    body("lastName").trim().isLength({ min: 1, max: 50 }),
+    body("message").trim().isLength({ min: 5, max: 500 }),
   ]),
   async (req: Request, res: Response) => {
     if (!sesClient) {
