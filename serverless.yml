@@ -24,9 +24,7 @@ provider:
   memorySize: 256
   httpApi:
     cors:
-      origin:
-        - localhost
-        - ${self:custom.domain}
+      origin: '${self:custom.domain},localhost'
       headers:
         - Content-Type
         - X-Amz-Date
