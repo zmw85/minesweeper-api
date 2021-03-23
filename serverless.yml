@@ -24,8 +24,18 @@ provider:
   memorySize: 256
   httpApi:
     cors:
-      origin: '${self:custom.domain},localhost'
-      headers:
+      allowedOrigins: 
+        - ${self:custom.domain}
+        - localhost
+      allowedMethods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - HEAD
+        - DELETE
+      allowHeaders:
         - Content-Type
         - X-Amz-Date
         - Authorization
@@ -33,6 +43,7 @@ provider:
         - X-Amz-Security-Token
         - X-Amz-User-Agent
       allowCredentials: false
+      axAge: 3600
   environment:
     STAGE: ${self:provider.stage}
   iamRoleStatements:
