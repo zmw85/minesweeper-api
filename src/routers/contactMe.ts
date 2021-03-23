@@ -17,7 +17,7 @@ router.post(
     body("email").trim().isEmail().isLength({ min: 5, max: 100 }),
     body("firstName").trim().isLength({ min: 1, max: 50 }),
     body("lastName").trim().isLength({ min: 1, max: 50 }),
-    body("message").trim().isLength({ min: 5, max: 500 }),
+    body("message").trim().isLength({ min: 5, max: 2000 }),
   ]),
   async (req: Request, res: Response) => {
     if (!sesClient) {

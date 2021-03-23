@@ -23,7 +23,18 @@ provider:
   timeout: 29
   memorySize: 256
   httpApi:
-    cors: true
+    cors:
+      origin:
+        - localhost
+        - ${self:custom.domain}
+      headers:
+        - Content-Type
+        - X-Amz-Date
+        - Authorization
+        - X-Api-Key
+        - X-Amz-Security-Token
+        - X-Amz-User-Agent
+      allowCredentials: false
   environment:
     STAGE: ${self:provider.stage}
   iamRoleStatements:
@@ -37,12 +48,12 @@ provider:
 custom:
   serverless-offline:
     httpPort: ${opt:port, '4000'}
-  customDomain:
-    http:
-      domainName: api.mine-sweeper.org
-      stage: ${self:provider.stage}
-      createRoute53Record: true
-      endpointType: 'regional'
+  # customDomain:
+  #   http:
+  #     domainName: api.mine-sweeper.org
+  #     stage: ${self:provider.stage}
+  #     createRoute53Record: true
+  #     endpointType: 'regional'
   webpack:
     webpackConfig: webpack.config.js
     includeModules: false
@@ -57,6 +68,7 @@ custom:
   domainPrefix:
     dev: dev-
     stage: stage-
+  domain: ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org
 
 package:
   individually: false
@@ -111,7 +123,7 @@ resources:
                 HTTPSPort: 443
                 OriginProtocolPolicy: https-only
           Aliases:
-            - ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org
+            - ${self:custom.domain}
           ViewerCertificate:
             AcmCertificateArn: "arn:aws:acm:us-east-1:204142071523:certificate/f21d20d6-8307-4883-96c5-eed8ac3f57ac"
             SslSupportMethod: sni-only
@@ -122,7 +134,7 @@ resources:
       Type: AWS::Route53::RecordSet
       Properties:
         HostedZoneName: mine-sweeper.org.
-        Name: ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org.
+        Name: ${self:custom.domain}.
         Type: A
         AliasTarget:
           HostedZoneId: Z2FDTNDATAQYW2
