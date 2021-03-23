@@ -79,9 +79,9 @@ custom:
     stage: stage-
   domain: ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org
   corsDomain:
-    dev: https://dev-website.mine-sweeper.org/
-    stage: https://stage-website.mine-sweeper.org/
-    prod: https://www.mine-sweeper.org/
+    dev: https://dev-website.mine-sweeper.org
+    stage: https://stage-website.mine-sweeper.org
+    prod: https://www.mine-sweeper.org
   corsLocalDomain:
     dev: http://localhost
     stage: http://localhost
