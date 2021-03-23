@@ -25,8 +25,8 @@ provider:
   httpApi:
     cors:
       allowedOrigins: 
-        - ${self:custom.domain}
-        - localhost
+        - https://${self:custom.domain}
+        - http://localhost
       allowedMethods:
         - OPTIONS
         - GET
