@@ -25,8 +25,8 @@ provider:
   httpApi:
     cors:
       allowedOrigins: 
-        - https://${self:custom.domain}
-        - http://localhost
+        - ${self:custom.corsDomain.${self:provider.stage}}
+        - ${self:custom.corsLocalDomain.${self:provider.stage}}
       allowedMethods:
         - OPTIONS
         - GET
@@ -43,7 +43,7 @@ provider:
         - X-Amz-Security-Token
         - X-Amz-User-Agent
       allowCredentials: false
-      axAge: 3600
+      maxAge: 3600
   environment:
     STAGE: ${self:provider.stage}
   iamRoleStatements:
@@ -78,6 +78,13 @@ custom:
     dev: dev-
     stage: stage-
   domain: ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org
+  corsDomain:
+    dev: https://dev-website.mine-sweeper.org/
+    stage: https://stage-website.mine-sweeper.org/
+    prod: https://www.mine-sweeper.org/
+  corsLocalDomain:
+    dev: http://localhost
+    stage: http://localhost
 
 package:
   individually: false
