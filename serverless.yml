@@ -85,6 +85,7 @@ custom:
   corsLocalDomain:
     dev: http://localhost
     stage: http://localhost
+    prod: https://doesnt.exist.commmm
 
 package:
   individually: false
