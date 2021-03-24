@@ -143,7 +143,7 @@ resources:
           Aliases:
             - ${self:custom.domain}
           ViewerCertificate:
-            AcmCertificateArn: "arn:aws:acm:us-east-1:204142071523:certificate/f21d20d6-8307-4883-96c5-eed8ac3f57ac"
+            AcmCertificateArn: "arn:aws:acm:us-east-1:204142071523:certificate/8cb8a234-b56f-418c-af05-f964d3fab0a4"
             SslSupportMethod: sni-only
           Logging:
             Bucket: logs-cloudfront-sadkjhwe9.s3.amazonaws.com
