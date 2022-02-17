@@ -1,6 +1,6 @@
 service: minesweeper-api
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 useDotenv: true
 
 plugins:
@@ -10,7 +10,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
   region: us-west-2
   stackName: MinesweeperApi-${self:custom.stageCapitalized}
@@ -24,7 +24,7 @@ provider:
   memorySize: 256
   httpApi:
     cors:
-      allowedOrigins: 
+      allowedOrigins:
         - ${self:custom.corsDomain.${self:provider.stage}}
         - ${self:custom.corsLocalDomain.${self:provider.stage}}
       allowedMethods:
@@ -49,9 +49,9 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action:
-       - ses:SendEmail
-       - ses:SendRawEmail
-       - ses:SendTemplatedEmail
+        - ses:SendEmail
+        - ses:SendRawEmail
+        - ses:SendTemplatedEmail
       Resource: "*"
 
 custom:
@@ -77,7 +77,7 @@ custom:
   domainPrefix:
     dev: dev-
     stage: stage-
-    prod: ''
+    prod: ""
   domain: ${self:custom.domainPrefix.${self:provider.stage}}api.mine-sweeper.org
   corsDomain:
     dev: https://dev-website.mine-sweeper.org
@@ -104,7 +104,7 @@ functions:
     events:
       - httpApi:
           path: /{proxy+}
-          method: '*'
+          method: "*"
 
 resources:
   Resources:
@@ -116,14 +116,15 @@ resources:
           Enabled: true
           DefaultCacheBehavior:
             TargetOriginId: HttpApi
-            ViewerProtocolPolicy: 'redirect-to-https'
-            DefaultTTL: 30
+            ViewerProtocolPolicy: "redirect-to-https"
+            DefaultTTL: 0
+            MinTTL: 0
+            MaxTTL: 31536000
             AllowedMethods:
               - HEAD
               - GET
               - POST
               - OPTIONS
-              - POST
               - PUT
               - DELETE
               - PATCH
@@ -135,9 +136,10 @@ resources:
                 Fn::Join:
                   - "."
                   - - Ref: HttpApi
-                    - execute-api.us-west-2.amazonaws.com
+                    - execute-api
+                    - ${self:provider.region}
+                    - amazonaws.com
               CustomOriginConfig:
-                HTTPPort: 80
                 HTTPSPort: 443
                 OriginProtocolPolicy: https-only
           Aliases:
